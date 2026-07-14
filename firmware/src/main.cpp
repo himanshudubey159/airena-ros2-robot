@@ -3,10 +3,15 @@
 #include "motor.h"
 #include "ir_sensor.h"
 #include "ultrasonic.h"
+#include "servo_control.h"
+#include "line_follower.h"
 
 MotorController motor;
 IRSensor ir;
 Ultrasonic ultrasonic;
+ServoControl servo;
+
+LineFollower lineFollower(motor, ir);
 
 void setup()
 {
@@ -15,15 +20,30 @@ void setup()
     motor.begin();
     ir.begin();
     ultrasonic.begin();
+    servo.begin();
 
-    Serial.println("AIRena Robot Ready");
+    Serial.println();
+    Serial.println("===============================");
+    Serial.println("   AIRena Robot Started");
+    Serial.println("===============================");
 }
 
 void loop()
 {
-    Serial.print("Distance: ");
-    Serial.print(ultrasonic.readDistanceCM());
-    Serial.println(" cm");
+    // Basic line following
+    lineFollower.update();
 
-    delay(500);
+    // Print ultrasonic distance every 500 ms
+    static unsigned long lastPrint = 0;
+
+    if (millis() - lastPrint >= 500)
+    {
+        lastPrint = millis();
+
+        Serial.print("Distance: ");
+        Serial.print(ultrasonic.readDistanceCM());
+        Serial.println(" cm");
+    }
+
+    delay(10);
 }

@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "motor.h"
 #include "pins.h"
+#include "servo_control.h"
 
 constexpr uint8_t LEFT_PWM_CHANNEL  = 0;
 constexpr uint8_t RIGHT_PWM_CHANNEL = 1;
