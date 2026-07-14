@@ -2,9 +2,11 @@
 
 #include "motor.h"
 #include "ir_sensor.h"
+#include "ultrasonic.h"
 
 MotorController motor;
 IRSensor ir;
+Ultrasonic ultrasonic;
 
 void setup()
 {
@@ -12,20 +14,16 @@ void setup()
 
     motor.begin();
     ir.begin();
+    ultrasonic.begin();
 
-    Serial.println("AIRena Robot Initialized");
+    Serial.println("AIRena Robot Ready");
 }
 
 void loop()
 {
-    Serial.print("L: ");
-    Serial.print(ir.left());
-
-    Serial.print(" C: ");
-    Serial.print(ir.center());
-
-    Serial.print(" R: ");
-    Serial.println(ir.right());
+    Serial.print("Distance: ");
+    Serial.print(ultrasonic.readDistanceCM());
+    Serial.println(" cm");
 
     delay(500);
 }
